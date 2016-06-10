@@ -1,0 +1,5 @@
+(연결 & 설정)http://razzpisampler.oreilly.com/ch09.html 
+-->(adafruit library)https://learn.adafruit.com/matrix-7-segment-led-backpack-with-the-raspberry-pi/using-the-adafruit-library
+-->(git)https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code
+
+산곳에 방법 문서있다! -->http://vctec.co.kr/product/detail.html?product_no=6287&cate_no=200&display_group=1#prdDelivery

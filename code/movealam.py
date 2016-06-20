@@ -53,7 +53,7 @@ try:
     while True:
         now = datetime.datetime.now()
         nowDate = now.strftime('%H:%M')
-        os.system("omxplayer -o local alam.wav")
+        os.system("omxplayer -o local /home/pi/alam.wav")
         print nowDate
 
         if GPIO.input(pir):

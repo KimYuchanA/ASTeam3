@@ -7,39 +7,29 @@ import os
 
 GPIO.setmode(GPIO.BCM)
 
+btn = 19
 pir = 21
-motor_R1 = 23
-motor_R2 = 24
-motor_R3 = 27
-motor_R4 = 22
-motor_L1 = 4
-motor_L2 = 17
-motor_L3 = 18
-motor_L4 = 25
+motor1 = 4
+motor2 = 17
+motor3 = 18
+motor4 = 25
 
+GPIO.setup(btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(pir, GPIO.IN)
-GPIO.setup(motor_R1, GPIO.OUT)
-GPIO.setup(motor_R2, GPIO.OUT)
-GPIO.setup(motor_R3, GPIO.OUT)
-GPIO.setup(motor_R4, GPIO.OUT)
-GPIO.setup(motor_L1, GPIO.OUT)
-GPIO.setup(motor_L2, GPIO.OUT)
-GPIO.setup(motor_L3, GPIO.OUT)
-GPIO.setup(motor_L4, GPIO.OUT)
+GPIO.setup(motor1, GPIO.OUT)
+GPIO.setup(motor2, GPIO.OUT)
+GPIO.setup(motor3, GPIO.OUT)
+GPIO.setup(motor4, GPIO.OUT)
 
-GPIO.output(motor_R1, True)
-GPIO.output(motor_R2, True)
-GPIO.output(motor_L1, True)
-GPIO.output(motor_L2, True)
+GPIO.output(motor1, True)
+GPIO.output(motor2, True)
 
 now = datetime.datetime.now()
 nowDate = now.strftime('%H:%M')
 wakeup = "7:00"
 
-GPIO.output(motor_R3, False)
-GPIO.output(motor_R4, False)
-GPIO.output(motor_L3, False)
-GPIO.output(motor_L4, True)
+GPIO.output(motor3, False)
+GPIO.output(motor4, True)
 
 print "timesleep"
 time.sleep(4)
@@ -49,53 +39,37 @@ try:
     time.sleep(2)
     print "Ready"
 
-    i = 0;
     while True:
+        input_state = GPIO.input(btn)
+        if input_state == False: 
+            print('Button Pressed')
+            GPIO.cleanup()
+
+            
         now = datetime.datetime.now()
         nowDate = now.strftime('%H:%M')
-        os.system("omxplayer -o local /home/pi/alam.wav")
+        os.system("omxplayer -o local /home/pi/call.wav")
+        if input_state == False:
+            print('Button Pressed')
+            GPIO.cleanup()
         print nowDate
 
         if GPIO.input(pir):
             print "gogogogogogo"
-            GPIO.output(motor_R3, False)
-            GPIO.output(motor_R4, True)
-            GPIO.output(motor_L3, True)
-            GPIO.output(motor_L4, False)
-            time.sleep(3)
+            GPIO.output(motor3, True)
+            GPIO.output(motor4, False)
+            if input_state == False:
+                print('Button Pressed')
+                GPIO.cleanup()
     
         else:
             print "no"
-            GPIO.output(motor_R3, False)
-            GPIO.output(motor_R4, False)
-            GPIO.output(motor_L3, False)
-            GPIO.output(motor_L4, True)
-            
-    #while True:
-    #    time.sleep(0.5)
-    #    now = datetime.datetime.now()
-    #    nowDate = now.strftime('%H:%M')
-    #    print nowDate
-    #    if nowDate == wakeup:
-    #        if GPIO.input(pir):
-    #            print "gogogogogogo"
-    #            GPIO.output(motor_R3, False)
-    #            GPIO.output(motor_R4, True)
-    #            GPIO.output(motor_L3, True)
-    #            GPIO.output(motor_L4, False)
-    #            time.sleep(5)
-    #
-    #        else:
-    #            print "no"
-    #            GPIO.output(motor_R3, False)
-    #            GPIO.output(motor_R4, False)
-    #            GPIO.output(motor_L3, False)
-    #            GPIO.output(motor_L4, True)
-    #    else:
-    #        GPIO.output(motor_R3, False)
-    #        GPIO.output(motor_R4, False)
-    #        GPIO.output(motor_L3, False)
-    #        GPIO.output(motor_L4, True)
+            GPIO.output(motor3, False)
+            GPIO.output(motor4, True)
+            if input_state == False:
+                print('Button Pressed')
+                GPIO.cleanup()
+
 
 except KeyboardInterrupt:
     print "Quit"
